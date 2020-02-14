@@ -22,6 +22,16 @@ class Account
             "Confirmed you withdrew #{amount}, your new balance #{balance} at #{current_time()}"
         end
     end
+    def send(receiver, amount, pin)
+        return 'invalid pin number try again' unless @pin == pin        
+        return 'receiver phone number is invalid' unless receiver.to_s.length == 10 and receiver.is_a?(Integer)
+        if amount > @balance
+            "Insufficient balance,you cannot send #{amount},your current balance is #{@balance}"
+        else
+        @balance -=amount
+        "Success you sent #{amount} to #{receiver} you current balance is #{@balance} at #{current_time}"
+        end
+    end
     def deposit (amount)
         @balance += amount       
         "Confirmed you deposited #{amount}, your new balance #{balance}

@@ -44,4 +44,29 @@ describe Account do
         expect(subject.deposit(500)).to eq "Confirmed you deposited 500, your new balance 500
         at #{subject.current_time()}"
     end
+    it 'reduces balance when money is sent' do
+        subject.deposit(1000) 
+        pin = subject.pin 
+        subject.send(1234567890, 200, pin )
+        expect(subject.balance).to eq 800
+
+    end
+    it 'send transaction details when money is sent' do
+        subject.deposit(1000) 
+        pin = subject.pin 
+        expect(subject.send(1234567890, 200, pin )).to eq "Success you sent 200 to 1234567890 you current balance is 800 at #{subject.current_time}"
+    end
+    it 'return error if pin number is wrong when sending money' do
+        expect(subject.send(1234567890, 200, 0000)).to eq 'invalid pin number try again' 
+    end
+    it "return errors if receiver phone number is invalid" do
+        pin = subject.pin 
+        expect(subject.send(12, 200, pin)).to eq 'receiver phone number is invalid'
+        expect(subject.send("1234567890 ", 200, pin)).to eq 'receiver phone number is invalid'
+    end
+
+    it 'return error if balance is less than amount withdrawn' do
+        pin = subject.pin     
+        expect(subject.send(1234567890, 200, pin)).to eq "Insufficient balance,you cannot send 200,your current balance is 0"
+    end
 end
