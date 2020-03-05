@@ -69,4 +69,15 @@ describe Account do
         pin = subject.pin     
         expect(subject.send(1234567890, 200, pin)).to eq "Insufficient balance,you cannot send 200,your current balance is 0"
     end
+
+    it 'change the value of pin to be new pin' do
+        pin = subject.pin 
+        expect(subject.change_pin(pin, 8888)).to eq 'Pin successfully changed your new pin is 8888'
+    end
+    it 'returns error if new pin give is of bad format'  do
+        pin = subject.pin 
+        expect(subject.change_pin(pin, '')).to eq "pin must be numbers only" 
+        expect(subject.change_pin(pin, 34)).to eq "pin must be 4 digits" 
+        expect(subject.change_pin(pin, 340000)).to eq "pin must be numbers only and of 4 digits" 
+    end
 end

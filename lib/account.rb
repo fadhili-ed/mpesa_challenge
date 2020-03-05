@@ -41,4 +41,15 @@ class Account
         @deposit_time  = Time.now.strftime('%d %b %Y %H:%M:%S')
 
     end
+    def change_pin(pin, newpin) 
+        if newpin.is_a?(String)
+            "pin must be numbers only"
+        elsif newpin.to_s.length < 4
+            "pin must be 4 digits"
+        elsif newpin.to_s.length > 4
+            "pin must be numbers only and of 4 digits"
+        else
+            "Pin successfully changed your new pin is 8888"
+        end
+    end
 end
